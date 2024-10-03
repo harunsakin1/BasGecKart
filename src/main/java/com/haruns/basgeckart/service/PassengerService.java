@@ -1,13 +1,13 @@
 package com.haruns.basgeckart.service;
 
 import com.haruns.basgeckart.repository.PassengerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class PassengerService {
-	private PassengerRepository passengerRepository;
+	private final PassengerRepository passengerRepository;
 	
-	public PassengerService(PassengerRepository passengerRepository) {
-		this.passengerRepository = passengerRepository;
-	}
+	
 }

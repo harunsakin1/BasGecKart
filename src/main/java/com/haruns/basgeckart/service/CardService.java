@@ -1,13 +1,13 @@
 package com.haruns.basgeckart.service;
 
 import com.haruns.basgeckart.repository.CardRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class CardService {
-	private CardRepository cardRepository;
+	private final CardRepository cardRepository;
 	
-	public CardService(CardRepository cardRepository) {
-		this.cardRepository = cardRepository;
-	}
+	
 }
