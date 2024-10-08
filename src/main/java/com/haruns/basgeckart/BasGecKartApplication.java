@@ -12,5 +12,5 @@ public class BasGecKartApplication {
 		SpringApplication.run(BasGecKartApplication.class, args);
 	}
 	//bu denemedir
- 
+    //bu da denemedir
 }
