@@ -11,14 +11,17 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Data
 @MappedSuperclass
 public abstract class BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	Integer state;
-	LocalDateTime createdAt;
-	LocalDateTime updateAt;
+	@Builder.Default
+	Integer state=1;
+	@Builder.Default
+	LocalDateTime createdAt=LocalDateTime.now();
+	@Builder.Default
+	LocalDateTime updateAt=LocalDateTime.now();
 }

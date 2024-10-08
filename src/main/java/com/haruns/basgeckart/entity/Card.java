@@ -18,10 +18,17 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tblcard")
 public class Card extends BaseEntity{
-	Long cardNumber;
-	Long customerId;
+	
+	@Column(unique = true, nullable = false)
+	String cardNumber;
 	CardType cardType;
-	Double balance;
+	@Builder.Default
+	Double balance = 0.0;
 	LocalDate visaDate;
 	LocalDateTime lastUsed;
+	
+	
+//	public void addBalance(Double amount) {
+//		this.balance += amount;
+//	}
 }
