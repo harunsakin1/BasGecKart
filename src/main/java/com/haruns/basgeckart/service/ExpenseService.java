@@ -67,8 +67,8 @@ public class ExpenseService {
 		Optional<Expense> optExpense = expenseList.stream().max(Comparator.comparing(Expense::getExpenseDate));
 		if (optExpense.isPresent()){
 			Expense expense=optExpense.get();
-			Duration duration=Duration.between(LocalDateTime.now(), expense.getExpenseDate());
-			if (duration.toSeconds()<10 || duration.toSeconds()>30){
+			Duration duration=Duration.between(expense.getExpenseDate(), LocalDateTime.now());
+			if (duration.toSeconds()>10 && duration.toSeconds()<30){
 				return true;
 			}
 			else {
