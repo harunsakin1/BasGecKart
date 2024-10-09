@@ -3,6 +3,8 @@ package com.haruns.basgeckart.service;
 import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.repository.CardRepository;
 import com.haruns.basgeckart.utility.enums.PaymentType;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,9 @@ public class CardService {
 	}
 	
 	
+	public Optional<Card> findCardByNumber(String cardNumber) {
+		return cardRepository.findByCardNumber(cardNumber);
+		
+	}
 	
 }

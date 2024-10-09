@@ -1,9 +1,7 @@
 package com.haruns.basgeckart.controller;
 
-import com.haruns.basgeckart.dto.request.UseCardDto;
-import com.haruns.basgeckart.entity.Transport;
+import com.haruns.basgeckart.dto.request.UseCardRequestDto;
 import com.haruns.basgeckart.service.ExpenseService;
-import com.haruns.basgeckart.utility.enums.TransportType;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +16,7 @@ public class ExpenseController {
 	private final ExpenseService expenseService;
 	
 	@PostMapping("/use-card")
-	public String useCard(@RequestBody @Valid UseCardDto dto) {
+	public String useCard(@RequestBody @Valid UseCardRequestDto dto) {
 		return expenseService.useCard(dto);
 	}
 }

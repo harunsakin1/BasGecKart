@@ -1,22 +1,18 @@
 package com.haruns.basgeckart.service;
 
-import com.haruns.basgeckart.dto.request.UseCardDto;
+import com.haruns.basgeckart.dto.request.UseCardRequestDto;
 import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Expense;
 import com.haruns.basgeckart.entity.Transport;
 import com.haruns.basgeckart.repository.ExpenseRepository;
-import com.haruns.basgeckart.utility.enums.TransportType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,14 +22,14 @@ public class ExpenseService {
 	TransportService transportService;
 	private final double CHANGE_TRANSPORT_DISCOUNT_RATE = 0.3;
 	
-	public String useCard(UseCardDto dto){
+	public String useCard(UseCardRequestDto dto){
 		Optional<Card> optCard = cardService.findCardById(dto.getCardId());
 		Optional<Transport> optTransport = transportService.findTransportById(dto.getTransportId());
 		if (optCard.isPresent()&& optTransport.isPresent()){
 			Card card=optCard.get();
 			Transport transport=optTransport.get();
 			Double amount = card.getCardType().getDiscountRate()*transport.getTransportType().getPrice();
-			if (card.getBalance()<=0){
+			if (card.getBalance()<(amount*CHANGE_TRANSPORT_DISCOUNT_RATE)){
 				return "Yetersiz Bakiye!";
 			}
 			else if (card.getBalance()> transport.getTransportType().getPrice()) {
@@ -41,7 +37,7 @@ public class ExpenseService {
 					card.setBalance(card.getBalance()-(amount*CHANGE_TRANSPORT_DISCOUNT_RATE));
 					cardService.saveCard(card);
 					Expense expense=
-							Expense.builder().expenseDate(LocalDateTime.now()).amount(amount).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
+							Expense.builder().expenseDate(LocalDateTime.now()).amount(amount*CHANGE_TRANSPORT_DISCOUNT_RATE).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
 					expenseRepository.save(expense);
 					return "Kalan bakiye : "+card.getBalance();
 				}

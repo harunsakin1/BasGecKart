@@ -19,7 +19,7 @@ public class RechargeService {
 	
 	public void addRecharge(AddBalanceRequestDto dto) {
 		Recharge recharge = Recharge.builder()
-		                            .cardId(dto.getCardId())
+		                            .cardNumber(dto.getCardNumber())
 		                            .rechargeDate(LocalDateTime.now())
 		                            .amount(dto.getAmount())
 		                            .paymentType(dto.getPaymentType())
@@ -28,10 +28,9 @@ public class RechargeService {
 	}
 	
 	public void addBalance(AddBalanceRequestDto dto) {
-		Optional<Card> optCard = cardService.findCardById(dto.getCardId());
+		Optional<Card> optCard = cardService.findCardByNumber(dto.getCardNumber());
 		if (optCard.isPresent()) {
 			Card card = optCard.get();
-			//		card.get().addBalance(dto.getAmount());
 			card.setBalance(card.getBalance() + dto.getAmount());
 			addRecharge(dto);
 			cardService.saveCard(card);

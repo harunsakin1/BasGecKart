@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-public class UseCardDto {
+public class UseCardRequestDto {
 	@NotNull
 	Long cardId;
 	@NotNull

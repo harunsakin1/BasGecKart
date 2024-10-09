@@ -1,9 +1,13 @@
 package com.haruns.basgeckart.controller;
 
+import com.haruns.basgeckart.dto.request.RegisterRequestDto;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.service.PassengerService;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +56,11 @@ public class PassengerController {
 	
 	public List<Passenger> findAll() {
 		return passengerService.findAll();
+	}
+	
+	@PostMapping("/register")
+	public Passenger register(@RequestBody @Valid RegisterRequestDto dto){
+		return passengerService.register(dto);
 	}
 	
 }

@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class AddBalanceRequestDto {
 	@NotNull
-	Long cardId;
+	@NotEmpty
+	String cardNumber;
 	@NotNull
 	Double amount;
 	@NotNull

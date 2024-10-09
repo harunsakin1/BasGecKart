@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Table(name = "tblrecharge")
 public class Recharge extends BaseEntity {
 	
-	Long cardId;
+	String cardNumber;
 	PaymentType paymentType;
 	Double amount;
 	LocalDateTime rechargeDate;

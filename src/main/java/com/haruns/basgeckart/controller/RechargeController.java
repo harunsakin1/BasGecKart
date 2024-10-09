@@ -2,7 +2,6 @@ package com.haruns.basgeckart.controller;
 
 import com.haruns.basgeckart.dto.request.AddBalanceRequestDto;
 import com.haruns.basgeckart.service.RechargeService;
-import com.haruns.basgeckart.utility.enums.PaymentType;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,5 @@ public class RechargeController {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().body("Bakiye eklenirken hata !!");
 		}
-		
 	}
 }
