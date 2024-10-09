@@ -28,7 +28,4 @@ public class Card extends BaseEntity{
 	LocalDateTime lastUsed;
 	
 	
-//	public void addBalance(Double amount) {
-//		this.balance += amount;
-//	}
 }

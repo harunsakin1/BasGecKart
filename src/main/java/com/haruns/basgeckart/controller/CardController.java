@@ -1,16 +1,15 @@
 package com.haruns.basgeckart.controller;
 
+import com.haruns.basgeckart.dto.request.CreateSpecialCardRequestDto;
 import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.service.CardService;
 import com.haruns.basgeckart.utility.CardNumberGenerator;
 import com.haruns.basgeckart.utility.enums.CardType;
 import com.haruns.basgeckart.utility.enums.PaymentType;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,7 +49,13 @@ public class CardController {
 		cardService.addAllCard(List.of(card, card1, card2, card3));
 		return "Kayıtlar başarıyla eklendi";
 	}
-	
-	
+	@PostMapping("/create-anonymous-card")
+	public Card createAnonymousCard(){
+		return cardService.createAnonymousCard();
+	}
+	@PostMapping("/create-special-card")
+	public Card specialCard(@RequestBody @Valid CreateSpecialCardRequestDto dto){
+		return cardService.specialCard(dto);
+	}
 	
 }

@@ -27,7 +27,9 @@ public class PassengerService {
 	public List<Passenger> findAll() {
 		return passengerRepository.findAll();
 	}
-	
+	public Passenger findPassengerByTc(String tc){
+		return passengerRepository.findByTc(tc);
+	}
 	public Passenger register(RegisterRequestDto dto) {
 		return passengerRepository.save(Passenger.builder()
 				                                 .name(dto.getName())
@@ -36,5 +38,10 @@ public class PassengerService {
 				                                 .birthDate(dto.getBirthDate())
 				                                 .address(dto.getAddress())
 				                                 .build());
+	}
+	
+	public void setCardToPassenger(Long cardId, Passenger passenger) {
+		passenger.setCardId(cardId);
+		updatePassenger(passenger);
 	}
 }

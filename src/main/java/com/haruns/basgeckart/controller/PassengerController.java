@@ -1,15 +1,12 @@
 package com.haruns.basgeckart.controller;
 
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
+import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.service.PassengerService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,18 +37,9 @@ public class PassengerController {
 		return "Kayıtlar başarı ile eklendi";
 	}
 	
-	@GetMapping("/set-card-to-passenger")
-	public String setCardToPassenger() {
-		Long cardId = 1L;
-		List<Passenger> passengerList = findAll();
-		for (Passenger passenger :passengerList){
-			passenger.setCardId(cardId);
-			passengerService.updatePassenger(passenger);
-			
-			cardId++;
-			
-		}
-		return "Kart atandı";
+	@PostMapping("/set-card-to-passenger")
+	public void setCardToPassenger(Long cardId,Passenger passenger) {
+		passengerService.setCardToPassenger(cardId, passenger);
 	}
 	
 	public List<Passenger> findAll() {

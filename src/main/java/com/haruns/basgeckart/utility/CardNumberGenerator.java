@@ -33,7 +33,7 @@ public class CardNumberGenerator implements ApplicationRunner {
 	
 	}
 	
-	public String generateCardNumber() {
+	public static String generateCardNumber() {
 		Random random = new Random();
 		int[] cardNumber = new int[16];
 		

@@ -1,32 +1,32 @@
 package com.haruns.basgeckart.dto.request;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.*;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@Builder
 @Data
-
 public class RegisterRequestDto {
-	@NotNull
-	//TODO @NotBlank ile dene
+	
+	@NotBlank
 	String name;
-	@NotNull
+	@NotBlank
 	String surname;
-	@NotNull
+	@NotBlank
 	@Pattern(message = "TC sadece rakam içerebilir ve 11 haneli olmalıdır", regexp = "^\\d{11}$")
 	String tc;
 	@NotNull
 	LocalDate birthDate;
-	@NotNull
+	@NotBlank
 	String address;
-	
 }

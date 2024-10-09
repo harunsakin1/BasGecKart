@@ -1,8 +1,13 @@
 package com.haruns.basgeckart.service;
 
+import com.haruns.basgeckart.dto.request.CreateSpecialCardRequestDto;
 import com.haruns.basgeckart.entity.Card;
+import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.repository.CardRepository;
+import com.haruns.basgeckart.utility.CardNumberGenerator;
+import com.haruns.basgeckart.utility.enums.CardType;
 import com.haruns.basgeckart.utility.enums.PaymentType;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +20,7 @@ import java.util.Optional;
 @Service
 public class CardService {
 	private final CardRepository cardRepository;
+	private final PassengerService passengerService;
 	
 	public void addAllCard(List<Card> cardList) {
 		cardRepository.saveAll(cardList);
@@ -30,7 +36,23 @@ public class CardService {
 	
 	public Optional<Card> findCardByNumber(String cardNumber) {
 		return cardRepository.findByCardNumber(cardNumber);
-		
 	}
 	
+	public Card createAnonymousCard(){
+		return cardRepository.save(Card.builder()
+		                        .cardNumber(CardNumberGenerator.generateCardNumber())
+		                        .cardType(CardType.STANDARD)
+				                .visaDate(CardType.STANDARD.getVisaDate())
+		                        .build());
+	}
+	
+	public Card specialCard(CreateSpecialCardRequestDto dto) {
+		
+		Card card = cardRepository.save(Card.builder().cardNumber(CardNumberGenerator.generateCardNumber())
+		                                    .cardType(dto.getCardType()).visaDate(dto.getCardType().getVisaDate())
+		                                    .build());
+		Passenger passenger = passengerService.findPassengerByTc(dto.getTc());
+		passengerService.setCardToPassenger(card.getId(),passenger);
+		return card;
+	}
 }
