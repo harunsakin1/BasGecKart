@@ -9,19 +9,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static com.haruns.basgeckart.constants.RestApis.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/recharge")
+@RequestMapping(RECHARGE)
 public class RechargeController {
 	private final RechargeService rechargeService;
 	
-	@PostMapping("/add-recharge")
+	@PostMapping(ADD_RECHARGE)
 	public void addRecharge(AddBalanceRequestDto dto) {
 		rechargeService.addRecharge(dto);
 	}
 	
-	@PostMapping("/add-balance")
+	@PostMapping(ADD_BALANCE)
 	public ResponseEntity<String> addBalance (@RequestBody @Valid AddBalanceRequestDto dto) {
 		try {
 			rechargeService.addBalance(dto);

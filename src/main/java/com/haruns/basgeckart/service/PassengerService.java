@@ -3,6 +3,7 @@ package com.haruns.basgeckart.service;
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.repository.PassengerRepository;
+import com.haruns.basgeckart.views.VwPassenger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class PassengerService {
 	public void updatePassenger(Passenger passenger) {
 		passengerRepository.saveAndFlush(passenger);
 	}
-	public List<Passenger> findAll() {
-		return passengerRepository.findAll();
+	public List<VwPassenger> findAll() {
+		return passengerRepository.findAllPassengers();
 	}
 	public Passenger findPassengerByTc(String tc){
 		return passengerRepository.findByTc(tc);

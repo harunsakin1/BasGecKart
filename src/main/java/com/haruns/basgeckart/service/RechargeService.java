@@ -20,7 +20,7 @@ public class RechargeService {
 	public void addRecharge(AddBalanceRequestDto dto) {
 		Recharge recharge = Recharge.builder()
 		                            .cardNumber(dto.getCardNumber())
-		                            .rechargeDate(LocalDateTime.now())
+		                            .rechargeDate(System.currentTimeMillis())
 		                            .amount(dto.getAmount())
 		                            .paymentType(dto.getPaymentType())
 		                            .build();

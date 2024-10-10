@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,12 +48,33 @@ public class CardService {
 	}
 	
 	public Card specialCard(CreateSpecialCardRequestDto dto) {
-		
+		Passenger passenger = passengerService.findPassengerByTc(dto.getTc());
+		if (validForElderCard(passenger, dto)) {
+			return addCardAndSetToPassenger(dto, passenger);
+		}
+		else{
+			dto.setCardType(CardType.STANDARD);
+			return addCardAndSetToPassenger(dto, passenger);
+		}
+	}
+	
+	private Card addCardAndSetToPassenger(CreateSpecialCardRequestDto dto, Passenger passenger) {
 		Card card = cardRepository.save(Card.builder().cardNumber(CardNumberGenerator.generateCardNumber())
 		                                    .cardType(dto.getCardType()).visaDate(dto.getCardType().getVisaDate())
 		                                    .build());
-		Passenger passenger = passengerService.findPassengerByTc(dto.getTc());
-		passengerService.setCardToPassenger(card.getId(),passenger);
+		
+		passengerService.setCardToPassenger(card.getId(), passenger);
 		return card;
+	}
+	
+	public Boolean validForElderCard(Passenger passenger, CreateSpecialCardRequestDto dto){
+		if (dto.getCardType().equals(CardType.ELDER)) {
+			
+			if (LocalDate.of(1960, 1, 1).isBefore(passenger.getBirthDate())) {
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 }

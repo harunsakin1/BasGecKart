@@ -1,4 +1,4 @@
-package com.haruns.basgeckart.entity;
+package com.haruns.basgeckart.views;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -7,19 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @Data
-@Entity
-@Table(name = "tblexpense")
-public class Expense extends BaseEntity {
-	
-	Long cardId;
-	Double amount;
-	Long expenseDate;
-	Long transportId;
-	
+public class VwPassenger {
+	String name;
+	String surname;
+	String avatar;
 }

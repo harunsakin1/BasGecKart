@@ -7,14 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static com.haruns.basgeckart.constants.RestApis.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/transport")
+@RequestMapping(TRANSPORT)
 public class TransportController {
 	private final TransportService transportService;
 	
-	@GetMapping("/add-all-transports")
+	@GetMapping(ADD_ALL_TRANSPORTS)
 	public String addAllTransports() {
 		Transport transport = Transport.builder()
 		                               .transportType(TransportType.BUS)

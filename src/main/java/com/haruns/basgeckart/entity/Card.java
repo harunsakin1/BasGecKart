@@ -25,7 +25,7 @@ public class Card extends BaseEntity{
 	@Builder.Default
 	Double balance = 0.0;
 	LocalDate visaDate;
-	LocalDateTime lastUsed;
+	Long lastUsed;
 	
 	
 }

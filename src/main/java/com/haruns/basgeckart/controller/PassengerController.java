@@ -1,22 +1,26 @@
 package com.haruns.basgeckart.controller;
 
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
+import com.haruns.basgeckart.dto.response.BaseResponse;
 import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.service.PassengerService;
+import com.haruns.basgeckart.views.VwPassenger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static com.haruns.basgeckart.constants.RestApis.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/passenger")
+@RequestMapping(PASSENGER)
 public class PassengerController {
 	private final PassengerService passengerService;
-	@GetMapping("/add-all-passengers")
+	@GetMapping(ADD_ALL_PASSENGERS)
 	public String addAllPassengers() {
 		Passenger passenger = Passenger.builder()
 		                               .email("asdas@")
@@ -37,16 +41,23 @@ public class PassengerController {
 		return "Kayıtlar başarı ile eklendi";
 	}
 	
-	@PostMapping("/set-card-to-passenger")
+	@PostMapping(SET_CARD_TO_PASSENGER)
 	public void setCardToPassenger(Long cardId,Passenger passenger) {
 		passengerService.setCardToPassenger(cardId, passenger);
 	}
 	
-	public List<Passenger> findAll() {
-		return passengerService.findAll();
+	@GetMapping(FIND_ALL_PASSENGERS)
+	public ResponseEntity<BaseResponse<List<VwPassenger>>> findAll() {
+		return ResponseEntity.ok(BaseResponse.<List<VwPassenger>>builder()
+				                         .success(true)
+				                         .code(200)
+				                         .message("Passenger listesi başarıyla getirildi")
+				                         .data(passengerService.findAll())
+		                     .build()
+		);
 	}
 	
-	@PostMapping("/register")
+	@PostMapping(REGISTER)
 	public Passenger register(@RequestBody @Valid RegisterRequestDto dto){
 		return passengerService.register(dto);
 	}

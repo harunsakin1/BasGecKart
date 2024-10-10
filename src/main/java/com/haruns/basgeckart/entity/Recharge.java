@@ -21,6 +21,6 @@ public class Recharge extends BaseEntity {
 	String cardNumber;
 	PaymentType paymentType;
 	Double amount;
-	LocalDateTime rechargeDate;
+	Long rechargeDate;
 	
 }

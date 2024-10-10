@@ -5,6 +5,7 @@ import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Expense;
 import com.haruns.basgeckart.entity.Transport;
 import com.haruns.basgeckart.repository.ExpenseRepository;
+import com.haruns.basgeckart.utility.TimeConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +33,12 @@ public class ExpenseService {
 			if (card.getBalance()<(amount*CHANGE_TRANSPORT_DISCOUNT_RATE)){
 				return "Yetersiz Bakiye!";
 			}
-			else if (card.getBalance()> transport.getTransportType().getPrice()) {
+			else if (card.getBalance()>= amount) {
 				if (isChangeTransport(dto.getCardId())) {
 					card.setBalance(card.getBalance()-(amount*CHANGE_TRANSPORT_DISCOUNT_RATE));
 					cardService.saveCard(card);
 					Expense expense=
-							Expense.builder().expenseDate(LocalDateTime.now()).amount(amount*CHANGE_TRANSPORT_DISCOUNT_RATE).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
+							Expense.builder().expenseDate(System.currentTimeMillis()).amount(amount*CHANGE_TRANSPORT_DISCOUNT_RATE).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
 					expenseRepository.save(expense);
 					return "Kalan bakiye : "+card.getBalance();
 				}
@@ -45,7 +46,7 @@ public class ExpenseService {
 					card.setBalance(card.getBalance()-(amount));
 					cardService.saveCard(card);
 					Expense expense=
-							Expense.builder().expenseDate(LocalDateTime.now()).amount(amount).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
+							Expense.builder().expenseDate(System.currentTimeMillis()).amount(amount).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
 					expenseRepository.save(expense);
 					return "Kalan bakiye : "+card.getBalance();
 				}
@@ -63,8 +64,8 @@ public class ExpenseService {
 		Optional<Expense> optExpense = expenseList.stream().max(Comparator.comparing(Expense::getExpenseDate));
 		if (optExpense.isPresent()){
 			Expense expense=optExpense.get();
-			Duration duration=Duration.between(expense.getExpenseDate(), LocalDateTime.now());
-			if (duration.toSeconds()>10 && duration.toSeconds()<30){
+			Long minuteDifference = TimeConverter.epochToMinute(expense.getExpenseDate(), System.currentTimeMillis());
+			if (minuteDifference>10 && minuteDifference<30){
 				return true;
 			}
 			else {
