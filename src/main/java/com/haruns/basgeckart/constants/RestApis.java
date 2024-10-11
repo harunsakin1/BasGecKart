@@ -28,6 +28,7 @@ public class RestApis {
 	public static final String ADD_RECHARGE ="/add-recharge";
 	public static final String ADD_BALANCE ="/add-balance";
 	public static final String ADD_ALL_TRANSPORTS ="/add-all-transports";
+	public static final String FIND_BY_TC ="/find-by-tc";
 	
 	
 	

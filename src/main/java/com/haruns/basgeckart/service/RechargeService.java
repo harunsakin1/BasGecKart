@@ -5,6 +5,8 @@ import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Recharge;
 import com.haruns.basgeckart.repository.RechargeRepository;
 import com.haruns.basgeckart.utility.enums.PaymentType;
+import com.haruns.exception.CardException;
+import com.haruns.exception.ErrorType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +31,12 @@ public class RechargeService {
 	
 	public void addBalance(AddBalanceRequestDto dto) {
 		Optional<Card> optCard = cardService.findCardByNumber(dto.getCardNumber());
-		if (optCard.isPresent()) {
+		if (optCard.isEmpty()){
+			throw new CardException(ErrorType.CARD_NOT_FOUND);
+		}
 			Card card = optCard.get();
 			card.setBalance(card.getBalance() + dto.getAmount());
 			addRecharge(dto);
 			cardService.saveCard(card);
-		}
 	}
 }

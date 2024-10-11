@@ -62,4 +62,9 @@ public class PassengerController {
 		return passengerService.register(dto);
 	}
 	
+	@GetMapping(FIND_BY_TC)
+	public Passenger findPassengerByTc(String tc){
+		return passengerService.findPassengerByTc(tc);
+	}
+	
 }

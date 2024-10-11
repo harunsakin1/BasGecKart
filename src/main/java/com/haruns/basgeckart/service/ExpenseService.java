@@ -6,6 +6,9 @@ import com.haruns.basgeckart.entity.Expense;
 import com.haruns.basgeckart.entity.Transport;
 import com.haruns.basgeckart.repository.ExpenseRepository;
 import com.haruns.basgeckart.utility.TimeConverter;
+import com.haruns.exception.CardException;
+import com.haruns.exception.ErrorType;
+import com.haruns.exception.TransportException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +28,13 @@ public class ExpenseService {
 	
 	public String useCard(UseCardRequestDto dto){
 		Optional<Card> optCard = cardService.findCardById(dto.getCardId());
+		if (optCard.isEmpty()){
+			throw new CardException(ErrorType.CARD_NOT_FOUND);
+		}
 		Optional<Transport> optTransport = transportService.findTransportById(dto.getTransportId());
-		if (optCard.isPresent()&& optTransport.isPresent()){
+		if(optTransport.isEmpty()){
+			throw new TransportException(ErrorType.TRANSPORT_NOT_FOUND);
+		}
 			Card card=optCard.get();
 			Transport transport=optTransport.get();
 			Double amount = card.getCardType().getDiscountRate()*transport.getTransportType().getPrice();
@@ -51,10 +59,6 @@ public class ExpenseService {
 					return "Kalan bakiye : "+card.getBalance();
 				}
 			}
-		}
-		else {
-			return "Kart ya da toplu taşıma aracı bulunamadı!";
-		}
 		return "";
 	}
 	

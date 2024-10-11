@@ -7,6 +7,8 @@ import com.haruns.basgeckart.repository.CardRepository;
 import com.haruns.basgeckart.utility.CardNumberGenerator;
 import com.haruns.basgeckart.utility.enums.CardType;
 import com.haruns.basgeckart.utility.enums.PaymentType;
+import com.haruns.exception.ErrorType;
+import com.haruns.exception.PassengerException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -49,6 +51,9 @@ public class CardService {
 	
 	public Card specialCard(CreateSpecialCardRequestDto dto) {
 		Passenger passenger = passengerService.findPassengerByTc(dto.getTc());
+		if (passenger==null){
+			throw new PassengerException(ErrorType.PASSENGER_NOT_FOUND);
+		}
 		if (validForElderCard(passenger, dto)) {
 			return addCardAndSetToPassenger(dto, passenger);
 		}
@@ -66,6 +71,8 @@ public class CardService {
 		passengerService.setCardToPassenger(card.getId(), passenger);
 		return card;
 	}
+	
+	
 	
 	public Boolean validForElderCard(Passenger passenger, CreateSpecialCardRequestDto dto){
 		if (dto.getCardType().equals(CardType.ELDER)) {

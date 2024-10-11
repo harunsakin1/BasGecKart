@@ -1,0 +1,20 @@
+package com.haruns.exception;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+@Getter
+@AllArgsConstructor
+public enum ErrorType {
+	
+	
+	CARD_NOT_FOUND(5001,"Kayıtlı kart bulunamadı.",HttpStatus.BAD_REQUEST),
+	TRANSPORT_NOT_FOUND(6001,"Kayıtlı toplu taşıma aracı bulunamadı.",HttpStatus.BAD_REQUEST),
+	PASSENGER_NOT_FOUND(7001,"Kayıtlı yolcu bulunamadı.",HttpStatus.BAD_REQUEST);
+	
+	
+	private int code;
+	private String message;
+	private HttpStatus httpStatus;
+}
