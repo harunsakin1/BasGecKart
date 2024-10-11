@@ -50,6 +50,13 @@ public class PassengerService {
 		return passenger;
 		
 	}
+	public boolean existByTc(String tc) {
+		if (!passengerRepository.existsByTc(tc)) {
+			System.out.println("EXIST BY TC");
+			throw new PassengerException(ErrorType.PASSENGER_NOT_FOUND);
+		}
+		return true;
+	}
 	public Passenger register(RegisterRequestDto dto) {
 		return passengerRepository.save(Passenger.builder()
 				                                 .name(dto.getName())
@@ -68,4 +75,11 @@ public class PassengerService {
 		updatePassenger(passenger);
 	}
 	
+	public Passenger findPassengerById(Long id) {
+		Optional<Passenger> optPassenger = passengerRepository.findById(id);
+		if (optPassenger.isEmpty()){
+			throw new PassengerException(ErrorType.PASSENGER_NOT_FOUND);
+		}
+		return optPassenger.get();
+	}
 }

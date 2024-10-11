@@ -6,6 +6,8 @@ import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.service.PassengerService;
 import com.haruns.basgeckart.views.VwPassenger;
+import com.haruns.exception.ErrorType;
+import com.haruns.exception.PassengerException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -67,4 +69,13 @@ public class PassengerController {
 		return passengerService.findPassengerByTc(tc);
 	}
 	
+	@GetMapping(EXIST_BY_TC)
+	public ResponseEntity<Boolean> existByTc(String tc){
+		return ResponseEntity.ok(passengerService.existByTc(tc));
+	}
+	
+	@GetMapping(FIND_BY_ID)
+	public Passenger findPassengerById(Long id){
+		return passengerService.findPassengerById(id);
+	}
 }

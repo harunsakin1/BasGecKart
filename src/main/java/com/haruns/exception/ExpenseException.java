@@ -1,5 +1,8 @@
 package com.haruns.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ExpenseException extends RuntimeException{
 	private ErrorType errorType;
 

@@ -12,6 +12,8 @@ public interface PassengerRepository extends JpaRepository<Passenger,Long> {
 
 	 Passenger findByTc(String tc);
 	
+	 Boolean existsByTc(String tc);
+	 
 	 @Query("select new com.haruns.basgeckart.views.VwPassenger(p.name, p.surname, p.avatar) from Passenger p")
 	List<VwPassenger> findAllPassengers();
 }

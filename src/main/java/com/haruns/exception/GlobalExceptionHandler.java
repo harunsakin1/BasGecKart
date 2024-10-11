@@ -11,16 +11,17 @@ import java.util.List;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-//
-//	@ExceptionHandler(RuntimeException.class)
-//	@ResponseBody
-//	public ResponseEntity<ErrorMessage> runtimeExceptionHandler(RuntimeException exception){
-//		return createResponseEntity(ErrorType.INTERNAL_SERVER_ERROR,HttpStatus.INTERNAL_SERVER_ERROR,null);
-//	}
+
+	@ExceptionHandler(RuntimeException.class)
+	@ResponseBody
+	public ResponseEntity<ErrorMessage> runtimeExceptionHandler(RuntimeException exception){
+		return createResponseEntity(ErrorType.INTERNAL_SERVER_ERROR,HttpStatus.INTERNAL_SERVER_ERROR,null);
+	}
 	
 	@ExceptionHandler(PassengerException.class)
 	@ResponseBody
 	public ResponseEntity<ErrorMessage> passengerExceptionHandler(PassengerException exception){
+		System.out.println("GLOBAL EXCEPTION");
 		return createResponseEntity(exception.getErrorType(),exception.getErrorType().getHttpStatus(),null );
 	}
 	
