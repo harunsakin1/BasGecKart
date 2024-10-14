@@ -1,4 +1,4 @@
-package com.haruns.exception;
+package com.haruns.basgeckart.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

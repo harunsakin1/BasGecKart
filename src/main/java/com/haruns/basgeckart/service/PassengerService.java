@@ -1,18 +1,12 @@
 package com.haruns.basgeckart.service;
 
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
-import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.repository.PassengerRepository;
 import com.haruns.basgeckart.views.VwPassenger;
-import com.haruns.exception.CardException;
-import com.haruns.exception.ErrorType;
-import com.haruns.exception.PassengerException;
-import jakarta.validation.Valid;
+import com.haruns.basgeckart.exception.ErrorType;
+import com.haruns.basgeckart.exception.PassengerException;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

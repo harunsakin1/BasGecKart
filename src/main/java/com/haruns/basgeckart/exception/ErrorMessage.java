@@ -1,4 +1,4 @@
-package com.haruns.exception;
+package com.haruns.basgeckart.exception;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -2,12 +2,9 @@ package com.haruns.basgeckart.controller;
 
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
 import com.haruns.basgeckart.dto.response.BaseResponse;
-import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.service.PassengerService;
 import com.haruns.basgeckart.views.VwPassenger;
-import com.haruns.exception.ErrorType;
-import com.haruns.exception.PassengerException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +52,7 @@ public class PassengerController {
 				                         .code(200)
 				                         .message("Passenger listesi başarıyla getirildi")
 				                         .data(passengerService.findAll())
-		                     .build()
+		                                 .build()
 		);
 	}
 	

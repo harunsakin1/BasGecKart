@@ -6,12 +6,8 @@ import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.repository.CardRepository;
 import com.haruns.basgeckart.utility.CardNumberGenerator;
 import com.haruns.basgeckart.utility.enums.CardType;
-import com.haruns.basgeckart.utility.enums.PaymentType;
-import com.haruns.exception.ErrorType;
-import com.haruns.exception.PassengerException;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import com.haruns.basgeckart.exception.ErrorType;
+import com.haruns.basgeckart.exception.PassengerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
