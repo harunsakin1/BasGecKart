@@ -3,6 +3,7 @@ package com.haruns.basgeckart.service;
 import com.haruns.basgeckart.dto.request.CreateSpecialCardRequestDto;
 import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Passenger;
+import com.haruns.basgeckart.mapper.CardMapper;
 import com.haruns.basgeckart.repository.CardRepository;
 import com.haruns.basgeckart.utility.CardNumberGenerator;
 import com.haruns.basgeckart.utility.enums.CardType;

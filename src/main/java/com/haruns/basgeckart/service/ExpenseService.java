@@ -4,6 +4,7 @@ import com.haruns.basgeckart.dto.request.UseCardRequestDto;
 import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Expense;
 import com.haruns.basgeckart.entity.Transport;
+import com.haruns.basgeckart.mapper.ExpenseMapper;
 import com.haruns.basgeckart.repository.ExpenseRepository;
 import com.haruns.basgeckart.utility.TimeConverter;
 import com.haruns.basgeckart.exception.CardException;
@@ -25,11 +26,12 @@ public class ExpenseService {
 	private final double CHANGE_TRANSPORT_DISCOUNT_RATE = 0.3;
 	
 	public String useCard(UseCardRequestDto dto){
-		Optional<Card> optCard = cardService.findCardById(dto.getCardId());
+		Expense expMapper= ExpenseMapper.INSTANCE.fromUseCardRequestDto(dto);
+		Optional<Card> optCard = cardService.findCardById(expMapper.getCardId());
 		if (optCard.isEmpty()){
 			throw new CardException(ErrorType.CARD_NOT_FOUND);
 		}
-		Optional<Transport> optTransport = transportService.findTransportById(dto.getTransportId());
+		Optional<Transport> optTransport = transportService.findTransportById(expMapper.getTransportId());
 		if(optTransport.isEmpty()){
 			throw new TransportException(ErrorType.TRANSPORT_NOT_FOUND);
 		}
@@ -40,11 +42,11 @@ public class ExpenseService {
 				return "Yetersiz Bakiye!";
 			}
 			else if (card.getBalance()>= amount) {
-				if (isChangeTransport(dto.getCardId())) {
+				if (isChangeTransport(expMapper.getCardId())) {
 					card.setBalance(card.getBalance()-(amount*CHANGE_TRANSPORT_DISCOUNT_RATE));
 					cardService.saveCard(card);
 					Expense expense=
-							Expense.builder().expenseDate(System.currentTimeMillis()).amount(amount*CHANGE_TRANSPORT_DISCOUNT_RATE).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
+							Expense.builder().expenseDate(System.currentTimeMillis()).amount(amount*CHANGE_TRANSPORT_DISCOUNT_RATE).cardId(expMapper.getCardId()).transportId(expMapper.getTransportId()).build();
 					expenseRepository.save(expense);
 					return "Kalan bakiye : "+card.getBalance();
 				}
@@ -52,7 +54,7 @@ public class ExpenseService {
 					card.setBalance(card.getBalance()-(amount));
 					cardService.saveCard(card);
 					Expense expense=
-							Expense.builder().expenseDate(System.currentTimeMillis()).amount(amount).cardId(dto.getCardId()).transportId(dto.getTransportId()).build();
+							Expense.builder().expenseDate(System.currentTimeMillis()).amount(amount).cardId(expMapper.getCardId()).transportId(expMapper.getTransportId()).build();
 					expenseRepository.save(expense);
 					return "Kalan bakiye : "+card.getBalance();
 				}
