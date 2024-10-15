@@ -2,22 +2,28 @@ package com.haruns.basgeckart.service;
 
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
 import com.haruns.basgeckart.entity.Passenger;
+import com.haruns.basgeckart.exception.CardException;
 import com.haruns.basgeckart.mapper.PassengerMapper;
 import com.haruns.basgeckart.repository.PassengerRepository;
 import com.haruns.basgeckart.views.VwPassenger;
 import com.haruns.basgeckart.exception.ErrorType;
 import com.haruns.basgeckart.exception.PassengerException;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @AllArgsConstructor
 @Service
 public class PassengerService {
 
 	private final PassengerRepository passengerRepository;
+	
 	
 	public void addPassenger(Passenger passenger) {
 		passengerRepository.save(passenger);
@@ -57,12 +63,19 @@ public class PassengerService {
 		return passengerRepository.save(passenger);
 	}
 	
-	public void setCardToPassenger(Long cardId, Passenger passenger) {
-		if (passenger==null){
+	public void setCardToPassenger(Long cardId, Long passengerId) {
+		if(passengerRepository.isCardAlreadySetted(cardId)){
+			throw new CardException(ErrorType.CARD_ALREADY_SETTED);
+		}
+		if (!FacadeService.cardService.existById(cardId)){//////////////
+		throw new CardException(ErrorType.CARD_NOT_FOUND);
+		}
+		Optional<Passenger> optionalPassenger = passengerRepository.findById(passengerId);
+		if (passengerId==null || optionalPassenger.isEmpty()) {
 			throw new PassengerException(ErrorType.PASSENGER_NOT_FOUND);
 		}
-		passenger.setCardId(cardId);
-		updatePassenger(passenger);
+		optionalPassenger.get().setCardId(cardId);
+		updatePassenger(optionalPassenger.get());
 	}
 	
 	public Passenger findPassengerById(Long id) {

@@ -16,4 +16,7 @@ public interface PassengerRepository extends JpaRepository<Passenger,Long> {
 	 
 	 @Query("select new com.haruns.basgeckart.views.VwPassenger(p.name, p.surname, p.avatar) from Passenger p")
 	List<VwPassenger> findAllPassengers();
+	
+	@Query("select count(p.cardId)>0 from Passenger p where p.cardId=?1 ")
+	Boolean isCardAlreadySetted(Long cardId);
 }

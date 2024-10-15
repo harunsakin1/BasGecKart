@@ -41,8 +41,8 @@ public class PassengerController {
 	}
 	
 	@PostMapping(SET_CARD_TO_PASSENGER)
-	public void setCardToPassenger(Long cardId,Passenger passenger) {
-		passengerService.setCardToPassenger(cardId, passenger);
+	public void setCardToPassenger(Long cardId,Long passengerId) {
+		passengerService.setCardToPassenger(cardId, passengerId);
 	}
 	
 	@GetMapping(FIND_ALL_PASSENGERS)

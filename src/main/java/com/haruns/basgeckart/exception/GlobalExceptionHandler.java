@@ -25,6 +25,14 @@ public class GlobalExceptionHandler {
 		return createResponseEntity(exception.getErrorType(),exception.getErrorType().getHttpStatus(),null );
 	}
 	
+	@ExceptionHandler(CardException.class)
+	@ResponseBody
+	public ResponseEntity<ErrorMessage> cardExceptionHandler(CardException exception){
+		return createResponseEntity(exception.getErrorType(),exception.getErrorType().getHttpStatus(),null);
+	}
+	
+	
+	
 	public ResponseEntity<ErrorMessage> createResponseEntity(ErrorType errorType,HttpStatus httpStatus,
 	                                                         List<String> fields){
 		log.error("TÜM HATALARIN GEÇTİĞİ NOKTA...: "+errorType.getMessage()+fields);

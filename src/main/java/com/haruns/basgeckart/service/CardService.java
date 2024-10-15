@@ -10,6 +10,7 @@ import com.haruns.basgeckart.utility.enums.CardType;
 import com.haruns.basgeckart.exception.ErrorType;
 import com.haruns.basgeckart.exception.PassengerException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Service
 public class CardService {
 	private final CardRepository cardRepository;
-	private final PassengerService passengerService;
+	
 	
 	public void addAllCard(List<Card> cardList) {
 		cardRepository.saveAll(cardList);
@@ -47,25 +48,25 @@ public class CardService {
 	}
 	
 	public Card specialCard(CreateSpecialCardRequestDto dto) {
-		Passenger passenger = passengerService.findPassengerByTc(dto.getTc());
+		Passenger passenger = FacadeService.passengerService.findPassengerByTc(dto.getTc());
 		if (passenger==null){
 			throw new PassengerException(ErrorType.PASSENGER_NOT_FOUND);
 		}
 		if (validForElderCard(passenger, dto)) {
-			return addCardAndSetToPassenger(dto, passenger);
+			return addCardAndSetToPassenger(dto, passenger.getId());
 		}
 		else{
 			dto.setCardType(CardType.STANDARD);
-			return addCardAndSetToPassenger(dto, passenger);
+			return addCardAndSetToPassenger(dto, passenger.getId());
 		}
 	}
 	
-	private Card addCardAndSetToPassenger(CreateSpecialCardRequestDto dto, Passenger passenger) {
+	private Card addCardAndSetToPassenger(CreateSpecialCardRequestDto dto, Long passengerId) {
 		Card card = cardRepository.save(Card.builder().cardNumber(CardNumberGenerator.generateCardNumber())
 		                                    .cardType(dto.getCardType()).visaDate(dto.getCardType().getVisaDate())
 		                                    .build());
 		
-		passengerService.setCardToPassenger(card.getId(), passenger);
+		FacadeService.passengerService.setCardToPassenger(card.getId(), passengerId);
 		return card;
 	}
 	
@@ -80,5 +81,9 @@ public class CardService {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean existById(Long cardId) {
+		return cardRepository.existsById(cardId);
 	}
 }
