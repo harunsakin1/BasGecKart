@@ -1,7 +1,7 @@
-package com.haruns.basgeckart.service;
+package com.haruns.basgeckart.service.proxy;
 
+import com.haruns.basgeckart.service.CardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +11,8 @@ public class CardServiceProxy {
 	private final ApplicationContext context;
 	
 	
-	private CardService getCardService() {
+	public CardService getCardService() {
 		return context.getBean(CardService.class);
-	}
-	
-	public boolean existById(Long cardId){
-		return getCardService().existById(cardId);
 	}
 	
 }

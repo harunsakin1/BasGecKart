@@ -31,6 +31,7 @@ public class RestApis {
 	public static final String FIND_BY_TC ="/find-by-tc";
 	public static final String EXIST_BY_TC ="/exist-by-tc";
 	public static final String FIND_BY_ID ="/find-by-id";
+	public static final String UPDATE ="/update";
 	
 	
 	

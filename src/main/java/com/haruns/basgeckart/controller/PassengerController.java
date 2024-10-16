@@ -1,6 +1,7 @@
 package com.haruns.basgeckart.controller;
 
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
+import com.haruns.basgeckart.dto.request.UpdatePassengerProfileDto;
 import com.haruns.basgeckart.dto.response.BaseResponse;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.service.PassengerService;
@@ -9,6 +10,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.plaf.PanelUI;
+
 import static com.haruns.basgeckart.constants.RestApis.*;
 
 import java.time.LocalDate;
@@ -74,5 +78,16 @@ public class PassengerController {
 	@GetMapping(FIND_BY_ID)
 	public Passenger findPassengerById(Long id){
 		return passengerService.findPassengerById(id);
+	}
+	
+	@PutMapping(UPDATE)
+	public ResponseEntity<BaseResponse<Boolean>> updatePassengerProfile(@RequestBody @Valid UpdatePassengerProfileDto dto){
+		passengerService.updatePassengerProfile(dto);
+		return ResponseEntity.ok(BaseResponse.<Boolean>builder()
+				                         .code(200)
+				                         .data(true)
+				                         .message("Güncelleme işlemi başarıyla gerçekleşti.")
+				                         .success(true)
+		                                  .build());
 	}
 }

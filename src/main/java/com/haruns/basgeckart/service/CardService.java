@@ -25,9 +25,11 @@ public class CardService {
 		cardRepository.saveAll(cardList);
 	}
 	
+	
 	public Optional<Card> findCardById(Long cardId){
 		return cardRepository.findById(cardId);
 	}
+	
 	
 	public Card saveCard(Card card){
 		return cardRepository.save(card);

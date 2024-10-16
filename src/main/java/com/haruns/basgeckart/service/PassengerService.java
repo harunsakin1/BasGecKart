@@ -1,17 +1,17 @@
 package com.haruns.basgeckart.service;
 
 import com.haruns.basgeckart.dto.request.RegisterRequestDto;
+import com.haruns.basgeckart.dto.request.UpdatePassengerProfileDto;
 import com.haruns.basgeckart.entity.Passenger;
 import com.haruns.basgeckart.exception.CardException;
 import com.haruns.basgeckart.mapper.PassengerMapper;
 import com.haruns.basgeckart.repository.PassengerRepository;
+import com.haruns.basgeckart.service.proxy.CardServiceProxy;
 import com.haruns.basgeckart.views.VwPassenger;
 import com.haruns.basgeckart.exception.ErrorType;
 import com.haruns.basgeckart.exception.PassengerException;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,7 +69,7 @@ public class PassengerService {
 		if(isCardAlreadySetted(cardId)){
 			throw new CardException(ErrorType.CARD_ALREADY_SETTED);
 		}
-		if (!cardServiceProxy.existById(cardId)){
+		if (!cardServiceProxy.getCardService().existById(cardId)){
 		throw new CardException(ErrorType.CARD_NOT_FOUND);
 		}
 		Passenger passenger = findPassengerById(passengerId);
@@ -91,5 +91,10 @@ public class PassengerService {
 			throw new PassengerException(ErrorType.PASSENGER_NOT_FOUND);
 		}
 		return optPassenger.get();
+	}
+	
+	public void updatePassengerProfile(@Valid UpdatePassengerProfileDto dto) {
+	Passenger passenger=PassengerMapper.INSTANCE.fromUpdatePassengerProfileDto(dto);
+	passengerRepository.save(passenger);
 	}
 }
