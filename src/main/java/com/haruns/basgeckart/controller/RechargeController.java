@@ -17,11 +17,6 @@ import static com.haruns.basgeckart.constants.RestApis.*;
 public class RechargeController {
 	private final RechargeService rechargeService;
 	
-	@PostMapping(ADD_RECHARGE)
-	public void addRecharge(AddBalanceRequestDto dto) {
-		rechargeService.addRecharge(dto);
-	}
-	
 	@PostMapping(ADD_BALANCE)
 	public ResponseEntity<String> addBalance (@RequestBody @Valid AddBalanceRequestDto dto) {
 		try {

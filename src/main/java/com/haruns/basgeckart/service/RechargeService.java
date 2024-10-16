@@ -25,12 +25,12 @@ public class RechargeService {
 	}
 	
 	public void addBalance(AddBalanceRequestDto dto) {
-		Optional<Card> optCard = cardService.findCardByNumber(dto.getCardNumber());
+		Optional<Card> optCard = cardService.findCardByNumber(dto.cardNumber());
 		if (optCard.isEmpty()){
 			throw new CardException(ErrorType.CARD_NOT_FOUND);
 		}
 			Card card = optCard.get();
-			card.setBalance(card.getBalance() + dto.getAmount());
+			card.setBalance(card.getBalance() + dto.amount());
 			addRecharge(dto);
 			cardService.saveCard(card);
 	}

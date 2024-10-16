@@ -1,5 +1,6 @@
 package com.haruns.basgeckart.mapper;
 
+
 import com.haruns.basgeckart.dto.request.CreateSpecialCardRequestDto;
 import com.haruns.basgeckart.entity.Card;
 import org.mapstruct.Mapper;

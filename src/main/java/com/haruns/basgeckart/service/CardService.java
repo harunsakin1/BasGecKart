@@ -3,14 +3,12 @@ package com.haruns.basgeckart.service;
 import com.haruns.basgeckart.dto.request.CreateSpecialCardRequestDto;
 import com.haruns.basgeckart.entity.Card;
 import com.haruns.basgeckart.entity.Passenger;
-import com.haruns.basgeckart.mapper.CardMapper;
 import com.haruns.basgeckart.repository.CardRepository;
 import com.haruns.basgeckart.utility.CardNumberGenerator;
 import com.haruns.basgeckart.utility.enums.CardType;
 import com.haruns.basgeckart.exception.ErrorType;
 import com.haruns.basgeckart.exception.PassengerException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,7 +19,7 @@ import java.util.Optional;
 @Service
 public class CardService {
 	private final CardRepository cardRepository;
-	
+	private final PassengerService passengerService;
 	
 	public void addAllCard(List<Card> cardList) {
 		cardRepository.saveAll(cardList);
@@ -30,10 +28,10 @@ public class CardService {
 	public Optional<Card> findCardById(Long cardId){
 		return cardRepository.findById(cardId);
 	}
-	public void saveCard(Card card){
-		cardRepository.save(card);
-	}
 	
+	public Card saveCard(Card card){
+		return cardRepository.save(card);
+	}
 	
 	public Optional<Card> findCardByNumber(String cardNumber) {
 		return cardRepository.findByCardNumber(cardNumber);
@@ -48,7 +46,7 @@ public class CardService {
 	}
 	
 	public Card specialCard(CreateSpecialCardRequestDto dto) {
-		Passenger passenger = FacadeService.passengerService.findPassengerByTc(dto.getTc());
+		Passenger passenger = passengerService.findPassengerByTc(dto.tc());
 		if (passenger==null){
 			throw new PassengerException(ErrorType.PASSENGER_NOT_FOUND);
 		}
@@ -56,24 +54,23 @@ public class CardService {
 			return addCardAndSetToPassenger(dto, passenger.getId());
 		}
 		else{
-			dto.setCardType(CardType.STANDARD);
+			dto.cardType().equals(CardType.STANDARD);
 			return addCardAndSetToPassenger(dto, passenger.getId());
 		}
 	}
 	
 	private Card addCardAndSetToPassenger(CreateSpecialCardRequestDto dto, Long passengerId) {
 		Card card = cardRepository.save(Card.builder().cardNumber(CardNumberGenerator.generateCardNumber())
-		                                    .cardType(dto.getCardType()).visaDate(dto.getCardType().getVisaDate())
+		                                    .cardType(dto.cardType()).visaDate(dto.cardType().getVisaDate())
 		                                    .build());
-		
-		FacadeService.passengerService.setCardToPassenger(card.getId(), passengerId);
+
+		passengerService.setCardToPassenger(card.getId(), passengerId);
 		return card;
 	}
 	
 	
-	
 	public Boolean validForElderCard(Passenger passenger, CreateSpecialCardRequestDto dto){
-		if (dto.getCardType().equals(CardType.ELDER)) {
+		if (dto.cardType().equals(CardType.ELDER)) {
 			
 			if (LocalDate.of(1960, 1, 1).isBefore(passenger.getBirthDate())) {
 				return false;
